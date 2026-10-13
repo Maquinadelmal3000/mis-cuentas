@@ -1,0 +1,20 @@
+{
+  "name": "mis-cuentas",
+  "version": "1.0.0",
+  "description": "Registro de ingresos, gastos y cuotas de tarjetas. Aplicación web sin dependencias.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs dist",
+    "test": "node --test",
+    "e2e": "node tests/e2e/run.mjs",
+    "e2e:dist": "node tests/e2e/run.mjs --dist",
+    "e2e:backup": "node tests/e2e/backup.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED"
+}

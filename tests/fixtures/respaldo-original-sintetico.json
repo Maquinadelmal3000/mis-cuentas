@@ -1,0 +1,1441 @@
+{
+ "app": "mis-cuentas",
+ "version": 1,
+ "exportedAt": "2026-10-10T12:00:00.000Z",
+ "state": {
+  "ver": 5,
+  "setup": {
+   "done": true,
+   "opening": 1500,
+   "start": "2026-10-10"
+  },
+  "off": [
+   0,
+   1
+  ],
+  "sources": [
+   "Uber",
+   "Trabajo",
+   "Otro",
+   "Delivery"
+  ],
+  "cats": [
+   "Comida en la calle",
+   "Comida en casa",
+   "Gasolina",
+   "Mantenimiento",
+   "Seguro y papeles",
+   "Transporte",
+   "Peluquería",
+   "Salidas",
+   "Juegos",
+   "Ropa",
+   "Salud",
+   "Celular e internet",
+   "Suscripciones",
+   "Renta",
+   "Servicios",
+   "Compras",
+   "Regalos",
+   "Otro"
+  ],
+  "groups": [
+   "Comida",
+   "Moto",
+   "Personal",
+   "Ocio",
+   "Hogar"
+  ],
+  "fixed": [
+   {
+    "id": "mv2cdxc07vrr",
+    "name": "Uber",
+    "amount": 1200,
+    "from": "2026-10"
+   }
+  ],
+  "templates": [
+   {
+    "id": "mv2cdxc04qh0",
+    "name": "Uber",
+    "mode": "in",
+    "cat": "Uber",
+    "amount": "250,5",
+    "note": "",
+    "cardId": null,
+    "n": 1,
+    "inst": "",
+    "src": "total"
+   },
+   {
+    "id": "mv2cdxc01oyw",
+    "name": "Gasolina moto",
+    "mode": "out",
+    "cat": "Comida en la calle",
+    "amount": "",
+    "note": "",
+    "cardId": null,
+    "n": 1,
+    "inst": "",
+    "src": "total"
+   }
+  ],
+  "catGroups": {
+   "Comida en la calle": "Comida",
+   "Comida en casa": "Comida",
+   "Gasolina": "Moto",
+   "Mantenimiento": "Moto",
+   "Seguro y papeles": "Moto",
+   "Peluquería": "Personal",
+   "Ropa": "Personal",
+   "Salud": "Personal",
+   "Salidas": "Ocio",
+   "Juegos": "Ocio",
+   "Suscripciones": "Ocio",
+   "Regalos": "Ocio",
+   "Renta": "Hogar",
+   "Servicios": "Hogar",
+   "Celular e internet": "Hogar"
+  },
+  "cards": [
+   {
+    "id": "c-papa",
+    "name": "Tarjeta de papá",
+    "kind": "papa"
+   },
+   {
+    "id": "c-mia",
+    "name": "Mi tarjeta",
+    "kind": "credito"
+   },
+   {
+    "id": "mv2cdxc0oft4",
+    "name": "Visa banco",
+    "kind": "papa"
+   }
+  ],
+  "tx": [
+   {
+    "id": "mv2cdxc0000d",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 250.5,
+    "date": "2026-10-10",
+    "note": ""
+   },
+   {
+    "id": "mv2cdxc0r79i",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 12.34,
+    "date": "2026-10-10",
+    "note": "Tanque lleno"
+   },
+   {
+    "id": "mv2cdxc0ogd9",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 61.88,
+    "date": "2026-10-09",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0xnd1",
+    "type": "in",
+    "cat": "Trabajo",
+    "amount": 164.86,
+    "date": "2026-10-09",
+    "note": "Pago semanal",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0dt0o",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 5.15,
+    "date": "2026-10-09",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0ip5w",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 45.86,
+    "date": "2026-10-08",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0twxi",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 8.43,
+    "date": "2026-10-08",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc018sz",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 62.91,
+    "date": "2026-10-07",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc01xab",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 4.79,
+    "date": "2026-10-07",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0j2ho",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 26.06,
+    "date": "2026-10-07",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0o5t5",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 68.31,
+    "date": "2026-10-06",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc009z5",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 8.11,
+    "date": "2026-10-06",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0dswn",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 48.49,
+    "date": "2026-10-05",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc02eml",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 11.81,
+    "date": "2026-10-05",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0f128",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 72.73,
+    "date": "2026-10-03",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0oq22",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 4.77,
+    "date": "2026-10-03",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0l7ba",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 62.41,
+    "date": "2026-10-02",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0xhug",
+    "type": "in",
+    "cat": "Trabajo",
+    "amount": 138.81,
+    "date": "2026-10-02",
+    "note": "Pago semanal",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0ugmr",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 10.72,
+    "date": "2026-10-02",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0iywe",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 40.27,
+    "date": "2026-10-01",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc03b6p",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 9.6,
+    "date": "2026-10-01",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0njh8",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 19.8,
+    "date": "2026-10-01",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0ez4v",
+    "type": "out",
+    "cat": "Salidas",
+    "amount": 20.29,
+    "date": "2026-10-01",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0p8qq",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 33.25,
+    "date": "2026-09-30",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0wrrx",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 13.39,
+    "date": "2026-09-30",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0rft4",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 93.04,
+    "date": "2026-09-29",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc09g50",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 5.21,
+    "date": "2026-09-29",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc01pii",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 58.87,
+    "date": "2026-09-28",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0qhym",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 13.56,
+    "date": "2026-09-28",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0bte3",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 15.03,
+    "date": "2026-09-28",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0mrwd",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 57.25,
+    "date": "2026-09-26",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0r8b3",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 9.5,
+    "date": "2026-09-26",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0zodu",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 73.67,
+    "date": "2026-09-25",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0d5h8",
+    "type": "in",
+    "cat": "Trabajo",
+    "amount": 142.47,
+    "date": "2026-09-25",
+    "note": "Pago semanal",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc08w5u",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 5.7,
+    "date": "2026-09-25",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0zddv",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 27.77,
+    "date": "2026-09-25",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0q0kf",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 58.97,
+    "date": "2026-09-24",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0r4ck",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 6.33,
+    "date": "2026-09-24",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0ngd9",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 65.56,
+    "date": "2026-09-23",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc02m78",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 7.3,
+    "date": "2026-09-23",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0mqlj",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 39.98,
+    "date": "2026-09-22",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0vukw",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 11.73,
+    "date": "2026-09-22",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc09tfk",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 17.63,
+    "date": "2026-09-22",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0fpl7",
+    "type": "out",
+    "cat": "Salidas",
+    "amount": 25.5,
+    "date": "2026-09-22",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0rldk",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 35.18,
+    "date": "2026-09-21",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0h751",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 13.26,
+    "date": "2026-09-21",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc08k5l",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 45.51,
+    "date": "2026-09-19",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc09wa1",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 12.84,
+    "date": "2026-09-19",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0cxlv",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 19.53,
+    "date": "2026-09-19",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc05zsk",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 45.34,
+    "date": "2026-09-18",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0hiiy",
+    "type": "in",
+    "cat": "Trabajo",
+    "amount": 168.24,
+    "date": "2026-09-18",
+    "note": "Pago semanal",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0wbd1",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 8.02,
+    "date": "2026-09-18",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0wqc0",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 79.33,
+    "date": "2026-09-17",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc026ho",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 10.53,
+    "date": "2026-09-17",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0wkfh",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 38.84,
+    "date": "2026-09-16",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0i5v0",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 6.24,
+    "date": "2026-09-16",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0il44",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 19.21,
+    "date": "2026-09-16",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0bhgs",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 35.86,
+    "date": "2026-09-15",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0zior",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 4.48,
+    "date": "2026-09-15",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0hs6z",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 56.8,
+    "date": "2026-09-14",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc09kx8",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 10.81,
+    "date": "2026-09-14",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc039l8",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 72.05,
+    "date": "2026-09-12",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0y4av",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 13.55,
+    "date": "2026-09-12",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc02nku",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 51.12,
+    "date": "2026-09-11",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0i0wz",
+    "type": "in",
+    "cat": "Trabajo",
+    "amount": 155.06,
+    "date": "2026-09-11",
+    "note": "Pago semanal",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0dtuj",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 8.96,
+    "date": "2026-09-11",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc09z3j",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 58.52,
+    "date": "2026-09-10",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0wwb2",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 12.38,
+    "date": "2026-09-10",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0j2jw",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 19.21,
+    "date": "2026-09-10",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0gpx6",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 58.56,
+    "date": "2026-09-09",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0xvic",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 6.64,
+    "date": "2026-09-09",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc01swp",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 45.39,
+    "date": "2026-09-08",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0rex7",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 11.43,
+    "date": "2026-09-08",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0rq6n",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 38.57,
+    "date": "2026-09-07",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0tsun",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 6.7,
+    "date": "2026-09-07",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc04ih1",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 24.27,
+    "date": "2026-09-07",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc00kkb",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 85.79,
+    "date": "2026-09-05",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0os8k",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 13.68,
+    "date": "2026-09-05",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0v98x",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 90.25,
+    "date": "2026-09-04",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0mnvz",
+    "type": "in",
+    "cat": "Trabajo",
+    "amount": 188.83,
+    "date": "2026-09-04",
+    "note": "Pago semanal",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0qi5a",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 11.47,
+    "date": "2026-09-04",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0q44t",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 22.24,
+    "date": "2026-09-04",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0zzap",
+    "type": "out",
+    "cat": "Salidas",
+    "amount": 31.64,
+    "date": "2026-09-04",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0vzl8",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 31.57,
+    "date": "2026-09-03",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc08e7x",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 7.24,
+    "date": "2026-09-03",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0b0zr",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 53.24,
+    "date": "2026-09-02",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0cmwy",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 6.15,
+    "date": "2026-09-02",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0ih7a",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 55.58,
+    "date": "2026-09-01",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0la2z",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 10.86,
+    "date": "2026-09-01",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0uge4",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 23.8,
+    "date": "2026-09-01",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0eu21",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 47.34,
+    "date": "2026-08-31",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0uali",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 13.56,
+    "date": "2026-08-31",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc09p19",
+    "type": "out",
+    "cat": "Peluquería",
+    "amount": 8.05,
+    "date": "2026-08-31",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0eycn",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 53.39,
+    "date": "2026-08-29",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0jccg",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 9.86,
+    "date": "2026-08-29",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0guf5",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 19.06,
+    "date": "2026-08-29",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0ac86",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 35.81,
+    "date": "2026-08-28",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc06f42",
+    "type": "in",
+    "cat": "Trabajo",
+    "amount": 199.25,
+    "date": "2026-08-28",
+    "note": "Pago semanal",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc05j7y",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 8.56,
+    "date": "2026-08-28",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0kkv4",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 86.7,
+    "date": "2026-08-27",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0svx1",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 9.87,
+    "date": "2026-08-27",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc016u5",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 60.49,
+    "date": "2026-08-26",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0j8na",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 5.25,
+    "date": "2026-08-26",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0hy13",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 24.69,
+    "date": "2026-08-26",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0ye5b",
+    "type": "out",
+    "cat": "Salidas",
+    "amount": 41.89,
+    "date": "2026-08-26",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0qxsc",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 47.19,
+    "date": "2026-08-25",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0jyqn",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 4.24,
+    "date": "2026-08-25",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0w2e8",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 40.04,
+    "date": "2026-08-24",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0mhsy",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 11.07,
+    "date": "2026-08-24",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0uba7",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 75.35,
+    "date": "2026-08-22",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc05r24",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 10.6,
+    "date": "2026-08-22",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc07nq4",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 86.52,
+    "date": "2026-08-21",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0pq9i",
+    "type": "in",
+    "cat": "Trabajo",
+    "amount": 138.39,
+    "date": "2026-08-21",
+    "note": "Pago semanal",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc04p17",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 12.31,
+    "date": "2026-08-21",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc039x8",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 40.96,
+    "date": "2026-08-20",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc09vv6",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 4.37,
+    "date": "2026-08-20",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc003vy",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 13.31,
+    "date": "2026-08-20",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0ewx9",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 31.37,
+    "date": "2026-08-19",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc00ytx",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 9.37,
+    "date": "2026-08-19",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0pjxc",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 84,
+    "date": "2026-08-18",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0xrij",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 12.43,
+    "date": "2026-08-18",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc08mxa",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 39.46,
+    "date": "2026-08-17",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc06ifv",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 8.94,
+    "date": "2026-08-17",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0bfj4",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 12.83,
+    "date": "2026-08-17",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0vxjf",
+    "type": "out",
+    "cat": "Salidas",
+    "amount": 23.39,
+    "date": "2026-08-17",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0nh2g",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 61.74,
+    "date": "2026-08-15",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc05eu1",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 4.64,
+    "date": "2026-08-15",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0oj0w",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 53.12,
+    "date": "2026-08-14",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0dw0k",
+    "type": "in",
+    "cat": "Trabajo",
+    "amount": 138.42,
+    "date": "2026-08-14",
+    "note": "Pago semanal",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0dyhp",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 6.96,
+    "date": "2026-08-14",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0hznx",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 24.65,
+    "date": "2026-08-14",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc05b7a",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 38.88,
+    "date": "2026-08-13",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0l4zs",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 5.65,
+    "date": "2026-08-13",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0ufv6",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 30.06,
+    "date": "2026-08-12",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0l8s3",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 10.24,
+    "date": "2026-08-12",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0ye7j",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 35.61,
+    "date": "2026-08-11",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0k0rj",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 8.03,
+    "date": "2026-08-11",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc05c05",
+    "type": "out",
+    "cat": "Gasolina",
+    "amount": 13.74,
+    "date": "2026-08-11",
+    "note": "Tanque",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0zed2",
+    "type": "out",
+    "cat": "Peluquería",
+    "amount": 11.35,
+    "date": "2026-08-11",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc0eprf",
+    "type": "in",
+    "cat": "Uber",
+    "amount": 56.95,
+    "date": "2026-08-10",
+    "note": "",
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc053sq",
+    "type": "out",
+    "cat": "Comida en la calle",
+    "amount": 4.08,
+    "date": "2026-08-10",
+    "note": "",
+    "sample": true
+   }
+  ],
+  "purchases": [
+   {
+    "id": "mv2cdxc0gies",
+    "cardId": "c-mia",
+    "cat": "Ropa",
+    "total": 720,
+    "n": 6,
+    "inst": 120,
+    "date": "2026-10-10",
+    "note": "Zapatillas",
+    "first": "2026-11",
+    "paid": {
+     "0": "2026-10-10"
+    }
+   },
+   {
+    "id": "mv2cdxc0j6gs",
+    "cardId": "c-papa",
+    "cat": "",
+    "total": 150,
+    "n": 4,
+    "inst": 37.5,
+    "date": "2026-10-10",
+    "note": "",
+    "first": "2026-11",
+    "paid": {}
+   },
+   {
+    "id": "mv2cdxc0kc3w",
+    "cardId": "c-mia",
+    "cat": "Ropa",
+    "total": 240,
+    "n": 6,
+    "inst": 40,
+    "date": "2026-09-26",
+    "note": "Zapatos",
+    "first": "2026-10",
+    "paid": {},
+    "sample": true
+   },
+   {
+    "id": "mv2cdxc092r7",
+    "cardId": "c-papa",
+    "cat": "",
+    "total": 150,
+    "n": 3,
+    "inst": 50,
+    "date": "2026-10-04",
+    "note": "Frenos de la moto",
+    "first": "2026-11",
+    "paid": {},
+    "sample": true
+   }
+  ]
+ }
+}

@@ -1,0 +1,14 @@
+import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_SESSION_KEY, SUPABASE_URL } from '../config/supabase.js';
+
+/** Cliente mínimo de Supabase Auth + Data API, sin dependencias externas. */
+export class SupabaseApi {
+  constructor(storage=globalThis.localStorage){this.storage=storage;this.session=null;this.user=null;this._loadSession();}
+  _loadSession(){try{const x=JSON.parse(this.storage.getItem(SUPABASE_SESSION_KEY)||'null');if(x&&x.access_token){this.session=x;this.user=x.user||null;}}catch(e){this.session=null;}}
+  _saveSession(s){this.session=s||null;this.user=s&&s.user?s.user:null;if(s)this.storage.setItem(SUPABASE_SESSION_KEY,JSON.stringify(s));else this.storage.removeItem(SUPABASE_SESSION_KEY);}
+  async _json(url,options={}){const r=await fetch(url,options);const text=await r.text();let body=null;try{body=text?JSON.parse(text):null;}catch(e){body=text;}if(!r.ok){const msg=body&&(body.msg||body.message||body.error_description||body.error)||`HTTP ${r.status}`;throw new Error(msg);}return body;}
+  async signIn(email,password){const body=await this._json(`${SUPABASE_URL}/auth/v1/token?grant_type=password`,{method:'POST',headers:{apikey:SUPABASE_PUBLISHABLE_KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password})});this._saveSession(body);return body;}
+  async signUp(email,password){const body=await this._json(`${SUPABASE_URL}/auth/v1/signup`,{method:'POST',headers:{apikey:SUPABASE_PUBLISHABLE_KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password})});if(body&&body.access_token)this._saveSession(body);return body;}
+  async signOut(){try{if(this.session)await this._json(`${SUPABASE_URL}/auth/v1/logout`,{method:'POST',headers:{apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:`Bearer ${this.session.access_token}`}});}finally{this._saveSession(null);}}
+  async ensureSession(){if(!this.session)return false;const exp=this.session.expires_at||0;if(exp>Date.now()/1000+60)return true;if(!this.session.refresh_token){this._saveSession(null);return false;}try{const body=await this._json(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`,{method:'POST',headers:{apikey:SUPABASE_PUBLISHABLE_KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:this.session.refresh_token})});this._saveSession(body);return true;}catch(e){this._saveSession(null);return false;}}
+  async request(table,{method='GET',query='',body=null,prefer='return=minimal'}={}){if(!await this.ensureSession())throw new Error('Sesión vencida. Vuelve a iniciar sesión.');const headers={apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:`Bearer ${this.session.access_token}`};if(body!==null)headers['Content-Type']='application/json';if(prefer)headers.Prefer=prefer;const url=`${SUPABASE_URL}/rest/v1/${table}${query?`?${query}`:''}`;return this._json(url,{method,headers,body:body===null?undefined:JSON.stringify(body)});}
+}

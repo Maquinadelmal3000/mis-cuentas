@@ -4,7 +4,8 @@ import { cuotas } from '../domain/installments.js';
 import { refreshSheet, refreshSyncUi, render } from './app.js';
 import { S, ctx, ui, view } from './ctx.js';
 import { closeSheet } from './dom.js';
-import { defFirst, openAdd, readDraft, renderAdd, syncCalc } from './views/addForm.js';
+import { navigateTab } from './navigation.js';
+import { defFirst, isDraftDirty, openAdd, openEditPur, openEditTx, readDraft, renderAdd, syncCalc } from './views/addForm.js';
 import { openCatDetail, openGroupDetail } from './views/analysis.js';
 import { downloadBackup, openBackup } from './views/backup.js';
 import { openCardDetail, openDueList, openNewCard, openPurchase, openTx } from './views/details.js';
@@ -22,7 +23,7 @@ function templateFromDraft(d,name){
 function saveTemplateIf(d){
   if(!d.tpl)return;
   const nm=(d.tname||'').trim()||d.note.trim()||d.cat||(d.mode==='in'?'Ingreso':d.mode==='card'?'Compra con tarjeta':'Gasto');
-  ctx.catalog.addTemplate(templateFromDraft(d,nm));
+  ctx.catalog.saveTemplate(templateFromDraft(d,nm));
 }
 /** Primer toque: arma el botón y pide confirmar; devuelve true si ya estaba armado. */
 function confirmTap(b,text){
@@ -30,6 +31,26 @@ function confirmTap(b,text){
   return true;
 }
 function applyBackup(p){ctx.backup.restore(p);closeSheet();render();}
+
+/** Guarda los cambios de un movimiento o una compra existente (mismo registro, sin duplicar). */
+function saveEdit(d,err){
+  try{
+    if(d.editKind==='pur'){
+      const tot=num(d.amount),inst=num(d.inst);
+      if(!(tot>0)||!(inst>0)){err.textContent='Escribe el total de la compra o el valor de la cuota.';return;}
+      if(!d.cardId){err.textContent='Elige una tarjeta.';return;}
+      ctx.ledger.updatePurchase(d.editId,{cardId:d.cardId,cat:d.cat||'',total:tot,n:d.n,inst,date:d.date,note:d.note.trim(),first:d.first});
+    }else{
+      const amt=num(d.amount);
+      if(!(amt>0)){err.textContent='Escribe un monto mayor a 0.';return;}
+      ctx.ledger.updateTransaction(d.editId,{type:d.mode,cat:d.cat,amount:amt,date:d.date,note:d.note.trim()});
+    }
+  }catch(e){
+    if(e&&e.name==='ValidationError'){err.textContent=e.message;return;}
+    throw e;
+  }
+  view.ym=d.date.slice(0,7);ui.draft=null;closeSheet();render();
+}
 
 /**
  * Acciones de la interfaz (patrón Command): cada botón con data-act="nombre" ejecuta actions[nombre].
@@ -46,6 +67,9 @@ export const actions={
   ct({id}){view.ct=id;render();},
   cf({id}){view.cf=id;render();},
   cm({id}){view.cm=id;render();},
+  calprev(){view.calYm=shiftYm(view.calYm||curYm(),-1);render();},
+  calnext(){view.calYm=shiftYm(view.calYm||curYm(),1);render();},
+  calcard({id}){view.calCard=id;render();},
   newcard(){ui.sheetCtx=null;openNewCard();},
   nstep({id}){readDraft();ui.draft.n=Math.max(1,Math.min(60,ui.draft.n+parseInt(id)));syncCalc();renderAdd();},
   addfixed(){
@@ -55,7 +79,15 @@ export const actions={
     renderSettings();render();
   },
   rmfixed({id}){ctx.catalog.removeFixedIncome(parseInt(id));renderSettings();render();},
-  dtpl(){readDraft();ui.draft.tpl=!ui.draft.tpl;if(ui.draft.tpl&&!ui.draft.tname)ui.draft.tname=ui.draft.note||'';renderAdd();},
+  savetplnow(){
+    readDraft();
+    const d=ui.draft,nm=(d.tname||'').trim()||d.note.trim()||d.cat||'';
+    if(!nm){$('f-tmsg').textContent='Escribe un nombre para la plantilla.';return;}
+    const r=ctx.catalog.saveTemplate(templateFromDraft(d,nm));
+    d.tname=nm;d.tmsg=r==='updated'?'Plantilla actualizada.':'Plantilla guardada.';renderAdd();
+  },
+  edittx({id}){ui.sheetCtx=null;openEditTx(id);},
+  editpur({id}){ui.sheetCtx=null;openEditPur(id);},
   usetpl({id}){
     const t=S().templates.find(x=>x.id===id);if(!t)return;
     readDraft();
@@ -71,15 +103,15 @@ export const actions={
     readDraft();
     const d=ui.draft,nm=(d.tname||'').trim(),err=$('ferr');
     if(!nm){err.textContent='Ponle un nombre a la plantilla.';return;}
-    ctx.catalog.addTemplate(templateFromDraft(d,nm));ui.draft=null;renderSettings();
+    ctx.catalog.saveTemplate(templateFromDraft(d,nm));ui.draft=null;renderSettings();
   },
   rmtpl({id}){ctx.catalog.removeTemplate(parseInt(id));renderSettings();},
   groupdet({id}){ui.sheetCtx=null;openGroupDetail(id);},
   hm({id}){view.hm=id;render();},
-  gotab({id}){view.tab=id;view.ym=curYm();render();window.scrollTo(0,0);},
+  gotab({id}){view.ym=curYm();navigateTab(id);},
   catdet({id}){ui.sheetCtx=null;openCatDetail(id);},
   cdet({id}){openCardDetail(id);},
-  close(){ui.sheetCtx=null;ui.wipeArm=false;closeSheet();},
+  close(){if(isDraftDirty()&&!(typeof window.confirm==='function'?window.confirm('Tenés cambios sin guardar. ¿Descartarlos?'):true))return;ui.draft=null;ui.sheetCtx=null;ui.wipeArm=false;closeSheet();},
   settings(){ui.sheetCtx=null;ui.wipeArm=false;renderSettings();},
   dtx({id}){ui.sheetCtx=null;openTx(id);},
   dpur({id}){openPurchase(id);},
@@ -113,6 +145,7 @@ export const actions={
     readDraft();
     const d=ui.draft,err=$('ferr');
     if(!d.date){err.textContent='Elige una fecha.';return;}
+    if(d.editId)return saveEdit(d,err);
     if(d.mode==='card'){
       const tot=num(d.amount),inst=num(d.inst);
       if(!(tot>0)||!(inst>0)){err.textContent='Escribe el total de la compra o el valor de la cuota.';return;}
@@ -144,6 +177,7 @@ export const actions={
   },
   /* ajustes */
   startapp(){ctx.catalog.startApp(num($('s-open').value));closeSheet();render();},
+  manualtoggle(){ctx.catalog.setManualInstallments(!S().manualInstallments);renderSettings();render();},
   offday({id}){ctx.catalog.toggleOffDay(parseInt(id));renderSettings();render();},
   addlist({b}){ctx.catalog.addToList(b.dataset.key,$('add-'+b.dataset.key).value.trim());renderSettings();},
   rmlist({id,b}){ctx.catalog.removeFromList(b.dataset.key,parseInt(id));renderSettings();},

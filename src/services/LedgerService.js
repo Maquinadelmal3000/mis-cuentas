@@ -33,6 +33,36 @@ export class LedgerService {
     return p;
   }
 
+  /** Modifica un movimiento existente (mismo id: no crea otro). Conserva la marca de ejemplo. */
+  updateTransaction(id, { type, cat, amount, date, note }) {
+    const t = this.state.tx.find(x => x.id === id);
+    if (!t) throw new ValidationError('not-found', 'El movimiento ya no existe');
+    if (type !== 'in' && type !== 'out') throw new ValidationError('type', 'Tipo de movimiento inválido');
+    if (!(amount > 0)) throw new ValidationError('amount', 'El monto debe ser mayor a 0');
+    if (!date) throw new ValidationError('date', 'Falta la fecha');
+    Object.assign(t, { type, cat, amount: r2(amount), date, note });
+    this.store.commit();
+    return t;
+  }
+
+  /**
+   * Modifica una compra con tarjeta (mismo id). Los pagos registrados se conservan; no se puede reducir el
+   * número de cuotas por debajo de la última cuota con pago registrado.
+   */
+  updatePurchase(id, { cardId, cat, total, n, inst, date, note, first }) {
+    const p = this.state.purchases.find(x => x.id === id);
+    if (!p) throw new ValidationError('not-found', 'La compra ya no existe');
+    if (!(total > 0) || !(inst > 0)) throw new ValidationError('amount', 'Total y cuota deben ser mayores a 0');
+    if (!cardId) throw new ValidationError('card', 'Falta la tarjeta');
+    if (!date) throw new ValidationError('date', 'Falta la fecha');
+    if (!Number.isInteger(n) || n < 1 || n > 60) throw new ValidationError('n', 'Las cuotas deben estar entre 1 y 60');
+    const maxPaid = Math.max(-1, ...Object.keys(p.paid || {}).map(Number));
+    if (n <= maxPaid) throw new ValidationError('paid-installments', 'La compra tiene la cuota ' + (maxPaid + 1) + ' con pago registrado: no puede tener menos cuotas');
+    Object.assign(p, { cardId, cat: cat || '', total: r2(total), n, inst: r2(inst), date, note, first });
+    this.store.commit();
+    return p;
+  }
+
   deleteTransaction(id) { this.state.tx = this.state.tx.filter(x => x.id !== id); this.store.commit(); }
 
   /** Elimina la compra (y con ella todas sus cuotas y pagos). */

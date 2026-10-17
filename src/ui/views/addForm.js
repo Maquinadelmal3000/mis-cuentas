@@ -5,14 +5,33 @@ import { linkedAmounts } from '../../domain/installmentCalc.js';
 import { S, ui } from '../ctx.js';
 import { openSheet } from '../dom.js';
 import { curYm, monthName, shiftYm, todayS } from '../../utils/dates.js';
-import { cap, esc, fmt, num } from '../../utils/format.js';
+import { cap, esc, fmt, fmtIn, num } from '../../utils/format.js';
 
 export const defFirst=date=>shiftYm(date.slice(0,7),1);
 
 export function openAdd(mode){
   ui.draft={mode:mode||'out',amount:'',cat:null,date:todayS(),note:'',cardId:null,n:1,inst:'',src:'total',first:null,firstManual:false,tpl:false,tname:'',tplOnly:false};
-  ui.draft.first=defFirst(ui.draft.date);renderAdd();
+  ui.draft.first=defFirst(ui.draft.date);renderAdd();snapDraft();
   const fa=document.getElementById('f-amt');if(fa)fa.focus();
+}
+
+/** Firma de los campos del formulario: sirve para saber si hay cambios sin guardar. */
+const draftSig=()=>{const d=ui.draft;return JSON.stringify([d.mode,d.amount,d.cat,d.date,d.note,d.cardId,d.n,d.inst,d.first,d.tname]);};
+export function snapDraft(){if(ui.draft)ui.draftSnap=draftSig();}
+/** ¿El formulario abierto tiene cambios sin guardar? */
+export function isDraftDirty(){if(!ui.draft)return false;readDraft();return draftSig()!==ui.draftSnap;}
+
+/** Abre el formulario con un movimiento existente para editarlo. */
+export function openEditTx(id){
+  const t=S().tx.find(x=>x.id===id);if(!t)return;
+  ui.draft={mode:t.type,editKind:'tx',editId:id,amount:fmtIn(t.amount),cat:t.cat,date:t.date,note:t.note||'',cardId:null,n:1,inst:'',src:'total',first:null,firstManual:true,tpl:false,tname:'',tplOnly:false};
+  renderAdd();snapDraft();
+}
+/** Abre el formulario con una compra con tarjeta existente para editarla. */
+export function openEditPur(id){
+  const p=S().purchases.find(x=>x.id===id);if(!p)return;
+  ui.draft={mode:'card',editKind:'pur',editId:id,amount:fmtIn(p.total),cat:p.cat||'',date:p.date,note:p.note||'',cardId:p.cardId,n:p.n,inst:fmtIn(p.inst),src:'total',first:p.first,firstManual:true,tpl:false,tname:'',tplOnly:false};
+  renderAdd();snapDraft();
 }
 
 export function readDraft(){
@@ -38,9 +57,10 @@ export function catOptions(sel){
   return S().groups.filter(g=>byG[g]).map(g=>`<optgroup label="${esc(g)}">${byG[g].map(o).join('')}</optgroup>`).join('')+none.map(o).join('');
 }
 
-export function tplChips(){
+/** Selector de plantillas: elegir una completa el formulario (sin guardar nada). */
+export function tplSelect(){
   if(!S().templates.length)return '';
-  return `<div style="font-size:14px;color:var(--muted);font-weight:600;margin:0 0 6px">Plantillas</div><div class="filters" style="margin-bottom:12px">${S().templates.map(t=>`<button class="chip" data-act="usetpl" data-id="${t.id}"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:${t.mode==='in'?'var(--in)':'var(--out)'}"></span>${esc(t.name)}${t.amount&&num(t.amount)>0?' · '+fmt(num(t.amount)):''}</button>`).join('')}</div>`;
+  return `<div class="field" style="margin-top:0;margin-bottom:12px"><label for="f-tpl">Usar plantilla</label><select class="inp" id="f-tpl"><option value="">Elegir plantilla…</option>${S().templates.map(t=>`<option value="${esc(t.id)}">${esc(t.name)}${t.amount&&num(t.amount)>0?' · '+fmt(num(t.amount)):''}</option>`).join('')}</select></div>`;
 }
 
 export function tplNameField(){
@@ -52,12 +72,13 @@ export function renderAdd(){
   if(isCard){if(ui.draft.cat===null||(ui.draft.cat!==''&&!list.includes(ui.draft.cat)))ui.draft.cat='';}
   else if(!list.includes(ui.draft.cat))ui.draft.cat=list[0];
   if(isCard&&!cardOf(S(),ui.draft.cardId)&&S().cards.length)ui.draft.cardId=S().cards[0].id;
-  const tone=m==='in'?'in':'out';
-  let h=`<h2>${ui.draft.tplOnly?'Nueva plantilla':'Nuevo movimiento'}</h2>${ui.draft.tplOnly?tplNameField():tplChips()}
-  <div class="seg mode" data-m="${m}" role="group" aria-label="Tipo de movimiento">
+  const tone=m==='in'?'in':'out',ed=!!ui.draft.editId,editPur=ed&&ui.draft.editKind==='pur';
+  const title=ui.draft.tplOnly?'Nueva plantilla':(ed?(editPur?'Editar compra':'Editar movimiento'):'Nuevo movimiento');
+  let h=`<h2>${title}</h2>${ui.draft.tplOnly?tplNameField():(ed?'':tplSelect())}
+  ${editPur?'':`<div class="seg mode" data-m="${m}" role="group" aria-label="Tipo de movimiento">
     <button data-act="dmode" data-id="in" aria-pressed="${m==='in'}">Ingreso</button>
     <button data-act="dmode" data-id="out" aria-pressed="${m==='out'}">Gasto</button>
-    <button data-act="dmode" data-id="card" aria-pressed="${isCard}">Con tarjeta</button></div>`;
+    ${ed?'':`<button data-act="dmode" data-id="card" aria-pressed="${isCard}">Con tarjeta</button>`}</div>`}`;
   if(!isCard)h+=`<div class="amtbox ${tone}"><label for="f-amt">Monto</label><div class="amtin"><span>$</span><input id="f-amt" inputmode="decimal" placeholder="0.00" value="${esc(ui.draft.amount)}"></div></div>`;
   if(isCard){
     h+=`<div class="field"><div class="lab">Tarjeta</div><div class="chips">${S().cards.map(c=>`<button class="chip" aria-pressed="${ui.draft.cardId===c.id}" data-act="dcard" data-id="${c.id}">${esc(c.name)}</button>`).join('')||'<span class="hint">Primero agrega una tarjeta en la pestaña Tarjetas.</span>'}</div></div>
@@ -72,11 +93,11 @@ export function renderAdd(){
   h+=`<div class="field"><label for="f-cat">${m==='in'?'¿De dónde viene?':(isCard?'Categoría (opcional)':'Categoría')}</label>
     <select class="inp" id="f-cat">${isCard?`<option value="" ${ui.draft.cat===''?'selected':''}>${SINCAT}</option>`:''}${m==='in'?list.map(c=>`<option value="${esc(c)}" ${ui.draft.cat===c?'selected':''}>${esc(c)}</option>`).join(''):catOptions(ui.draft.cat)}</select></div>`;
   if(!ui.draft.tplOnly)h+=`<div class="field"><label for="f-date">${isCard?'Día de la compra':'Fecha'}</label><input class="inp" type="date" id="f-date" value="${esc(ui.draft.date)}"></div>`;
-  h+=`<div class="field"><label for="f-note">Nota (opcional)</label><input class="inp" id="f-note" maxlength="60" placeholder="Ej. Tanque lleno" value="${esc(ui.draft.note)}"></div>`;
+  h+=`<div class="field"><label for="f-note">${isCard?'Descripción de la compra':'Nota (opcional)'}</label><input class="inp" id="f-note" maxlength="60" placeholder="${isCard?'Ej. Zapatillas':'Ej. Tanque lleno'}" value="${esc(ui.draft.note)}"></div>`;
   if(ui.draft.tplOnly)h+=`<div class="hint">El monto es opcional: déjalo vacío si cambia cada vez.</div>`;
-  else h+=`<div class="field"><button class="chip" data-act="dtpl" aria-pressed="${!!ui.draft.tpl}">Guardar como plantilla</button>${ui.draft.tpl?`<div style="margin-top:8px"><input class="inp" id="f-tname" maxlength="30" placeholder="Nombre de la plantilla" value="${esc(ui.draft.tname)}"></div>`:''}</div>`;
+  else if(!ed){h+=`<div class="field"><label for="f-tname">Guardar como plantilla</label><div class="inline"><input class="inp" id="f-tname" maxlength="30" placeholder="Nombre de la plantilla" value="${esc(ui.draft.tname)}"><button class="btn alt sm" data-act="savetplnow">Guardar plantilla</button></div><div class="hint" id="f-tmsg" role="status">${esc(ui.draft.tmsg||'')}</div></div>`;ui.draft.tmsg='';}
   h+=`<div class="err" id="ferr" role="alert"></div>
-  <div class="actions"><button class="btn alt" data-act="${ui.draft.tplOnly?'closetpl':'close'}">Cancelar</button><button class="btn ${ui.draft.tplOnly?'':tone}" data-act="${ui.draft.tplOnly?'savetplonly':'savetx'}">${ui.draft.tplOnly?'Guardar plantilla':'Guardar'}</button></div>`;
+  <div class="actions"><button class="btn alt" data-act="${ui.draft.tplOnly?'closetpl':'close'}">Cancelar</button><button class="btn ${ui.draft.tplOnly?'':tone}" data-act="${ui.draft.tplOnly?'savetplonly':'savetx'}">${ui.draft.tplOnly?'Guardar plantilla':(ed?'Guardar cambios':'Guardar')}</button></div>`;
   openSheet(h);
 }
 

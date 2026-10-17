@@ -21,6 +21,7 @@ export function createDefaultState() {
     ver: SCHEMA_VERSION,
     setup: { done: false, opening: 0, start: null },
     off: DEFAULT_OFF_DAYS.slice(),
+    manualInstallments: false,   // false = cuotas por mes calendario (automático); true = confirmación manual
     sources: DEFAULT_SOURCES.slice(),
     cats: DEFAULT_CATEGORIES.slice(),
     groups: DEFAULT_GROUPS.slice(),

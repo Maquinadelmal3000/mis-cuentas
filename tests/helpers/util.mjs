@@ -9,6 +9,7 @@ export function realClock() { setClock(null); }
 export function makeState(over = {}) {
   const s = createDefaultState();
   s.setup = { done: true, opening: 0, start: '2026-01-01' };
+  s.manualInstallments = true;   // las pruebas originales describen la confirmación MANUAL; las de modo automático pasan manualInstallments: false
   return Object.assign(s, over);
 }
 let n = 0;

@@ -3,11 +3,12 @@ import { actions } from './actions.js';
 import { render } from './app.js';
 import { S, ctx, ui, view } from './ctx.js';
 import { closeSheet } from './dom.js';
+import { initNavigation, navigateTab } from './navigation.js';
 import { MASKED, maskMoney } from './moneyMask.js';
-import { defFirst, openAdd, readDraft, renderAdd, syncCalc } from './views/addForm.js';
+import { defFirst, isDraftDirty, openAdd, readDraft, renderAdd, syncCalc } from './views/addForm.js';
 import { handleBackupFile } from './views/backup.js';
 import { listBoxHtml } from './views/list.js';
-import { todayS } from '../utils/dates.js';
+import { pad, todayS } from '../utils/dates.js';
 import { num } from '../utils/format.js';
 
 /** Entrada del usuario: registra los eventos del documento y los delega en las acciones. */
@@ -30,6 +31,8 @@ function onInput(e){
 function onChange(e){
   const id=e.target.id,s=e.target.dataset&&e.target.dataset.set;
   if(id==='bk-file'){handleBackupFile(e.target);return;}
+  if(id==='f-tpl'){if(e.target.value)actions.usetpl({id:e.target.value});return;}
+  if(id==='cal-m'||id==='cal-y'){const g=x=>document.getElementById(x);view.calYm=g('cal-y').value+'-'+pad(Number(g('cal-m').value));render();return;}
   if(ui.draft){
     if(id==='f-first'){ui.draft.firstManual=true;ui.draft.first=e.target.value;return;}
     if(id==='f-date'&&ui.draft.mode==='card'&&!ui.draft.firstManual){readDraft();ui.draft.first=defFirst(ui.draft.date);renderAdd();return;}
@@ -47,9 +50,10 @@ function onClick(e){
 }
 
 export function bindEvents(){
-  document.getElementById('scrim').addEventListener('click',()=>{if(S().setup.done){ui.sheetCtx=null;closeSheet();}});
+  initNavigation();
+  document.getElementById('scrim').addEventListener('click',()=>{if(S().setup.done){if(isDraftDirty()&&!(typeof window.confirm==='function'?window.confirm('Tenés cambios sin guardar. ¿Descartarlos?'):true))return;ui.draft=null;ui.sheetCtx=null;closeSheet();}});
   document.getElementById('fab').addEventListener('click',()=>{ui.sheetCtx=null;openAdd(view.tab==='cards'?'card':'out');});
-  document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(!b)return;view.tab=b.dataset.tab;ui.armPay=null;render();window.scrollTo(0,0);});
+  document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(!b)return;ui.armPay=null;navigateTab(b.dataset.tab);});
   document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.classList&&d.classList.contains('acc')&&d.dataset.sec)view.sopen[d.dataset.sec]=d.open;},true);
   document.addEventListener('input',onInput);
   document.addEventListener('change',onChange);

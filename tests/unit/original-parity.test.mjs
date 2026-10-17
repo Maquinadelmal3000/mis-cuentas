@@ -18,7 +18,7 @@ for (const [name, ds] of Object.entries(fx.datasets)) {
   for (const date of fx.fechas) {
     test(`cifras de Hoy idénticas a la app original · estado "${name}" · ${date}`, () => {
       at(date);
-      const s = hydrateState(JSON.parse(JSON.stringify(ds.state)));
+      const s = hydrateState(JSON.parse(JSON.stringify(ds.state))); s.manualInstallments = true;   // la app original solo tenía confirmación manual
       const h = homeSummary(s), exp = ds.original[date].home;
       assert.equal(fmt(h.cNow), exp.plata);
       assert.equal(fmt(h.comp), exp.aPagar);
@@ -35,7 +35,7 @@ for (const [name, ds] of Object.entries(fx.datasets)) {
 
     test(`cifras de Análisis y Deudas idénticas a la app original · "${name}" · ${date}`, () => {
       at(date);
-      const s = hydrateState(JSON.parse(JSON.stringify(ds.state))), exp = ds.original[date];
+      const s = hydrateState(JSON.parse(JSON.stringify(ds.state))), exp = ds.original[date]; s.manualInstallments = true;
       for (const basis of ['cuota', 'total']) {
         for (const off of [-1, 0, 1, 2]) {
           const m = monthSummary(s, shiftYm(curYm(), off), basis, 'out'), e = exp.analysis[basis][off];

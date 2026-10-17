@@ -1,3 +1,5 @@
+import { sheetOpened, sheetClosed } from './navigation.js';
+
 /** Referencias al DOM y control de la hoja inferior (bottom sheet). */
 
 export const $app=document.getElementById('app'),$sheet=document.getElementById('sheet'),$scrim=document.getElementById('scrim');
@@ -14,8 +16,8 @@ export function openSheet(h){
     }
   }
   $sheet.innerHTML=`<div class="grab"></div><div class="sbody">${body}</div>${foot?`<div class="sfoot">${foot}</div>`:''}`;
-  $sheet.classList.add('on');$scrim.classList.add('on');
+  $sheet.classList.add('on');$scrim.classList.add('on');sheetOpened();
   const sb=$sheet.querySelector('.sbody');if(sb)sb.scrollTop=0;
 }
 
-export function closeSheet(){$sheet.classList.remove('on');$scrim.classList.remove('on');$sheet.innerHTML='';}
+export function closeSheet(){sheetClosed();$sheet.classList.remove('on');$scrim.classList.remove('on');$sheet.innerHTML='';}

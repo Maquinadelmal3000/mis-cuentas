@@ -30,6 +30,9 @@ export function renderSettings(){
   sec('gas','Gastos','Categorías y grupos',
     `<div class="field" style="margin-top:0"><div class="lab">Grupos de gasto</div>${list(S().groups,'groups')}<div class="hint">Un grupo junta varias categorías para ver su total (por ejemplo, Moto). Al registrar sigues eligiendo la categoría exacta, como Gasolina.</div></div>
     <div class="field"><div class="lab">Categorías y su grupo</div>${catRows()}</div>`)+
+  sec('cuo','Cuotas','Automáticas por mes o confirmación manual',
+    `<div class="chips"><button class="chip" data-act="manualtoggle" aria-pressed="${!!S().manualInstallments}">Confirmación manual de cuotas</button></div>
+    <div class="hint">Desactivada (lo normal): las cuotas se consideran pagadas por el cambio de mes calendario, desde el mes de la primera cuota, sin usar vencimientos. Es un estado calculado: no crea pagos ni movimientos.<br>Activada: tú marcas cada cuota como pagada y puedes deshacerlo. Al cambiar de modalidad no se borra ni se duplica ningún pago.</div>`)+
   sec('tpl','Plantillas','Movimientos frecuentes',
     `${tplRows()}<div class="hint">También puedes crear una al registrar, con “Guardar como plantilla”. Aparecen arriba en el formulario de registro.</div>`)+
   sec('dat','Datos','Sincronización, respaldo y borrado',

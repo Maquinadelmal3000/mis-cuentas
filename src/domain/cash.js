@@ -1,7 +1,7 @@
 /** Dinero disponible, compromisos con tarjetas, días de trabajo e ingresos fijos. */
 import { todayS, parseD } from '../utils/dates.js';
 import { sum } from '../utils/math.js';
-import { cuotas, unpaidAt } from './installments.js';
+import { cuotas, unpaidAt, isManual } from './installments.js';
 
 /**
  * Plata que se tiene: saldo inicial + ingresos − gastos al contado − cuotas pagadas.
@@ -16,8 +16,16 @@ export function cash(state, mode) {
   return v;
 }
 
-/** Suma de cuotas sin pagar que vencen hasta el mes ym (incluye meses anteriores atrasados). */
-export function committed(state, mode, ym) { return sum(cuotas(state).filter(c => c.due <= ym && unpaidAt(c, mode)).map(c => c.amount)); }
+/**
+ * ¿La cuota cuenta como compromiso de pago en el mes ym?  (decisión de diseño, ver docs/CUOTAS.md)
+ *  - Modo manual: toda cuota sin pago real que vence hasta ym (incluye meses anteriores atrasados).
+ *  - Modo automático: las cuotas de meses anteriores se consideran pagadas por el calendario; solo cuenta la del mes ym
+ *    (si no tiene pago real). La plata disponible NO cambia por el avance automático: solo los pagos reales la descuentan.
+ */
+export const isCommitted = (state, c, mode, ym) => c.due <= ym && unpaidAt(c, mode) && (isManual(state) || c.due === ym);
+
+/** Suma de cuotas que son compromiso hasta el mes ym. */
+export function committed(state, mode, ym) { return sum(cuotas(state).filter(c => isCommitted(state, c, mode, ym)).map(c => c.amount)); }
 
 /** Días de trabajo (no marcados como libres) entre dos fechas, ambas incluidas. */
 export function workdays(state, from, to) {

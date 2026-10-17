@@ -1,5 +1,6 @@
 /** Piezas de interfaz reutilizables: encabezado, selector de mes, pestañas, filas de movimientos y listas agrupadas. */
 import { cardName, pLabel } from '../domain/accessors.js';
+import { isManual } from '../domain/installments.js';
 import { listMovements } from '../domain/movements.js';
 import { S, syncStatus, view } from './ctx.js';
 import { ICON } from './icons.js';
@@ -40,11 +41,13 @@ export function purRow(p){
 }
 
 export function cuotaRow(c){
-  return `<div class="row"><span class="ico out">${c.paid?ICON.check:ICON.card}</span>
+  const manual=isManual(S());
+  const status=c.paid?'pagada el '+dayShort(c.paid):(c.done?'pagada por calendario':'cuota de '+monthOnly(c.due));
+  return `<div class="row"><span class="ico out">${c.done?ICON.check:ICON.card}</span>
   <div class="main"><div class="t">${esc(pLabel(c.p))} · cuota ${c.i+1}/${c.p.n}</div>
-  <div class="s">${esc(cardName(S(),c.p.cardId))} · ${c.paid?'pagada el '+esc(dayShort(c.paid)):'cuota de '+esc(monthOnly(c.due))}</div></div>
-  <div class="amt neg"${c.paid?' style="opacity:.6"':''}>${fmt(c.amount)}</div>
-  <button class="btn sm ${c.paid?'alt':''}" data-act="${c.paid?'unpay':'pay'}" data-id="${c.p.id}" data-i="${c.i}">${c.paid?'Deshacer':'Pagar'}</button></div>`;
+  <div class="s">${esc(cardName(S(),c.p.cardId))} · ${esc(status)}</div></div>
+  <div class="amt neg"${c.done?' style="opacity:.6"':''}>${fmt(c.amount)}</div>
+  ${manual?`<button class="btn sm ${c.paid?'alt':''}" data-act="${c.paid?'unpay':'pay'}" data-id="${c.p.id}" data-i="${c.i}">${c.paid?'Deshacer':'Pagar'}</button>`:''}</div>`;
 }
 
 export function groupedList(items,withHeaders){

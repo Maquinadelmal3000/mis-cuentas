@@ -8,7 +8,7 @@ test('el estado por defecto es independiente en cada llamada', () => {
   const b = createDefaultState();
   assert.ok(!b.cats.includes('X')); assert.notEqual(b.cards[0].name, 'cambiada'); assert.equal(b.catGroups.X, undefined);
   assert.equal(b.ver, SCHEMA_VERSION);
-  assert.deepEqual(Object.keys(b), ['ver', 'setup', 'off', 'sources', 'cats', 'groups', 'fixed', 'templates', 'catGroups', 'cards', 'tx', 'purchases']);
+  assert.deepEqual(Object.keys(b), ['ver', 'setup', 'off', 'manualInstallments', 'sources', 'cats', 'groups', 'fixed', 'templates', 'catGroups', 'cards', 'tx', 'purchases']);
 });
 
 test('migración desde una versión anterior: renombra categorías, agrega las nuevas y asigna grupos', () => {

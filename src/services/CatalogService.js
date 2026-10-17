@@ -16,6 +16,9 @@ export class CatalogService {
   }
   setOpening(v) { this.state.setup.opening = isNaN(v) ? 0 : v; this.store.commit(); }
 
+  /** Modalidad de cuotas: false = avance automático por mes calendario; true = confirmación manual. No toca pagos ni movimientos. */
+  setManualInstallments(flag) { this.state.manualInstallments = !!flag; this.store.commit(); }
+
   addCard(name, kind) { this.state.cards.push({ id: uid(), name, kind }); this.store.commit(); }
   removeCard(id) { this.state.cards = this.state.cards.filter(c => c.id !== id); this.store.commit(); }
 
@@ -59,6 +62,13 @@ export class CatalogService {
 
   /** Guarda una plantilla de movimiento frecuente (se le asigna id). */
   addTemplate(tpl) { this.state.templates.push(Object.assign({ id: uid() }, tpl)); this.store.commit(); }
+  /** Guarda una plantilla sin duplicar: si ya existe una con el mismo nombre y tipo, la actualiza. @returns {'created'|'updated'} */
+  saveTemplate(tpl) {
+    const key = x => String(x.name).trim().toLowerCase() + '|' + x.mode;
+    const i = this.state.templates.findIndex(x => key(x) === key(tpl));
+    if (i >= 0) { this.state.templates[i] = Object.assign({}, this.state.templates[i], tpl, { id: this.state.templates[i].id }); this.store.commit(); return 'updated'; }
+    this.addTemplate(tpl); return 'created';
+  }
   removeTemplate(index) { this.state.templates.splice(index, 1); this.store.commit(); }
 
   /** Borra todos los datos y vuelve al estado inicial. */

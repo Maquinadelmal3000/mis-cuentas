@@ -19,7 +19,7 @@ export function toRelational(state, userId = null) {
   const t = {
     user_settings: [{
       user_id: u, schema_version: state.ver || 0, setup_done: !!state.setup.done, opening_balance: state.setup.opening || 0,
-      setup_start: state.setup.start || null, off_days: (state.off || []).slice(), app_updated_at: state.updatedAt ? new Date(state.updatedAt).toISOString() : null
+      setup_start: state.setup.start || null, manual_installments: !!state.manualInstallments, off_days: (state.off || []).slice(), app_updated_at: state.updatedAt ? new Date(state.updatedAt).toISOString() : null
     }],
     income_sources: state.sources.map((name, i) => ({ user_id: u, name, position: i })),
     expense_groups: state.groups.map((name, i) => ({ user_id: u, name, position: i })),

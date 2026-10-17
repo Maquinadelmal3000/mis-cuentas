@@ -243,3 +243,8 @@ textarea.inp{min-height:110px;font-size:13px;font-family:ui-monospace,Menlo,mono
 .sync[data-st="ok"]::before{background:var(--in)}
 .sync[data-st="error"]::before{background:var(--out)}
 .sync[data-st="pending"]::before,.sync[data-st="connecting"]::before{background:var(--accent)}
+
+/* Calendario de cuotas */
+.calnav{display:flex;align-items:center;gap:8px;margin:0 0 12px}
+.calsel{flex:1;display:flex;gap:8px;min-width:0}
+.calsel .inp{min-width:0}

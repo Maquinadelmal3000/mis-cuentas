@@ -59,6 +59,7 @@ test('todas las pestañas y subpestañas se dibujan', () => {
 });
 
 test('pagar una cuota resta de la plata y se puede deshacer', async () => {
+  dom.click('settings'); dom.click('manualtoggle'); dom.click('close');   // este flujo es el de confirmación manual
   dom.tab('cards'); dom.click('ct', 'sum'); dom.click('next');
   dom.click('paycard', 'c-mia'); assert.match(dom.app(), /¿Confirmar pago\?/);   // primer toque pide confirmar
   dom.click('paycard', 'c-mia');
@@ -100,4 +101,38 @@ test('respaldo: texto exportado y confirmación de borrado con doble toque', asy
 test('la interfaz no depende de servicios de Claude', () => {
   assert.equal(typeof globalThis.window.claude, 'undefined');
   assert.match(dom.app() + dom.sheet(), /Solo en este dispositivo|Respaldo|Movimientos/);
+});
+
+test('editar un movimiento desde el detalle actualiza el original sin duplicar', async () => {
+  dom.tab('home');
+  dom.fab(); dom.click('dmode', 'out'); dom.set('f-amt', '40'); dom.set('f-date', '2026-10-10'); dom.set('f-note', 'Nafta'); dom.set('f-cat', 'Gasolina'); dom.click('savetx');
+  await dom.sleep(20);
+  let saved = JSON.parse(dom.storage.getItem('mis-cuentas-v2'));
+  const t = saved.tx.find(x => x.note === 'Nafta'), n0 = saved.tx.length;
+  dom.click('dtx', t.id); assert.match(dom.sheet(), /Editar/);
+  dom.click('edittx', t.id); assert.match(dom.sheet(), /Editar movimiento/); assert.match(dom.sheet(), /Guardar cambios/);
+  dom.set('f-amt', '55,5'); dom.set('f-date', '2026-10-09'); dom.set('f-note', 'Nafta YPF'); dom.set('f-cat', 'Gasolina'); dom.click('savetx');
+  await dom.sleep(20);
+  saved = JSON.parse(dom.storage.getItem('mis-cuentas-v2'));
+  const e = saved.tx.find(x => x.id === t.id);
+  assert.equal(saved.tx.length, n0); assert.equal(e.amount, 55.5); assert.equal(e.note, 'Nafta YPF'); assert.equal(e.date, '2026-10-09');
+});
+
+test('plantillas: guardar con su botón sin duplicar, y elegirla en el selector completa el formulario sin guardar nada', async () => {
+  dom.fab(); dom.click('dmode', 'out');
+  dom.set('f-amt', '20'); dom.set('f-date', '2026-10-10'); dom.set('f-note', 'Tanque'); dom.set('f-cat', 'Gasolina'); dom.set('f-tname', 'Nafta');
+  dom.click('savetplnow'); assert.match(dom.sheet(), /Plantilla guardada/);
+  dom.click('savetplnow'); assert.match(dom.sheet(), /Plantilla actualizada/);
+  dom.click('close'); await dom.sleep(20);
+  let saved = JSON.parse(dom.storage.getItem('mis-cuentas-v2'));
+  const tpls = saved.templates.filter(x => x.name === 'Nafta'); assert.equal(tpls.length, 1);
+  const txBefore = saved.tx.length;
+  dom.fab(); assert.match(dom.sheet(), /Usar plantilla/);
+  (dom.handlers['doc:change'] || []).forEach(f => f({ target: { id: 'f-tpl', value: tpls[0].id, dataset: {} } }));
+  assert.match(dom.sheet(), /value="20"/);                       // el monto de la plantilla quedó en el formulario
+  assert.match(dom.sheet(), /value="Tanque"/);
+  await dom.sleep(20);
+  saved = JSON.parse(dom.storage.getItem('mis-cuentas-v2'));
+  assert.equal(saved.tx.length, txBefore);                       // elegir una plantilla NO guarda el movimiento
+  dom.click('close');
 });

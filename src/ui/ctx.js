@@ -9,7 +9,7 @@ export const S=()=>ctx.store.state;
 export const syncStatus=()=>ctx.repository.getSyncStatus();
 
 /** Estado de navegación y filtros de la pantalla. */
-export const view={tab:'home',hm:'day',ym:curYm(),filter:'all',catMode:'out',basis:'cuota',dim:'cat',an:'sum',ct:'sum',cf:'all',cm:'all',q:'',sopen:{}};
+export const view={tab:'home',hm:'day',ym:curYm(),filter:'all',catMode:'out',basis:'cuota',dim:'cat',an:'sum',ct:'sum',cf:'all',cm:'all',q:'',sopen:{},calYm:null,calCard:'all'};
 
 /** Estado efímero de la interfaz (se reasigna, por eso va dentro de un objeto). */
 export const ui={sheetCtx:null,draft:null,armPay:null,newKind:'credito',wipeArm:false,BKP:null};

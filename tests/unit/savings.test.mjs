@@ -55,3 +55,33 @@ test('sin historial no se inventan gastos: se marca como estimación incompleta'
   const s=createDefaultState();const r=savingMonth(s,'2026-11','2026-09');
   assert.equal(r.variable,0);assert.equal(r.hasHistory,false);assert.equal(r.missingIncome,true);
 });
+
+test('horizonte sin cuotas: mes anterior y 12 meses desde el actual', async () => {
+  const { savingsHorizon } = await import('../../src/domain/savings.js');
+  const h = savingsHorizon(createDefaultState(), '2026-10');
+  assert.deepEqual(h, {start:'2026-09', end:'2027-09', count:13});
+});
+
+test('horizonte llega hasta la última cuota aunque supere 12 meses', async () => {
+  const { savingsHorizon } = await import('../../src/domain/savings.js');
+  const s = createDefaultState();
+  s.purchases = [{id:'long',cardId:'c1',cat:'Compra',total:2400,n:24,inst:100,date:'2026-10-01',first:'2026-10',paid:{}}];
+  const h = savingsHorizon(s, '2026-10');
+  assert.deepEqual(h, {start:'2026-09', end:'2028-09', count:25});
+});
+
+test('horizonte no se acorta por cuotas que ya vencieron', async () => {
+  const { savingsHorizon } = await import('../../src/domain/savings.js');
+  const s = createDefaultState();
+  s.purchases = [{id:'old',cardId:'c1',cat:'Compra',total:200,n:2,inst:100,date:'2025-01-01',first:'2025-02',paid:{}}];
+  assert.equal(savingsHorizon(s,'2026-10').end,'2027-09');
+});
+
+test('el botón de carga queda fuera de la navegación de cinco pestañas', async () => {
+  const { readFileSync } = await import('node:fs');
+  const html = readFileSync(new URL('../../index.html',import.meta.url),'utf8');
+  const nav = html.match(/<nav[^>]*>([\s\S]*?)<\/nav>/)?.[1] || '';
+  assert.equal((nav.match(/data-tab=/g)||[]).length,5);
+  assert.doesNotMatch(nav,/id="fab"/);
+  assert.match(html,/<\/nav>\s*<button class="plus floating-add" id="fab"/);
+});

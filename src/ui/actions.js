@@ -10,7 +10,7 @@ import { openCatDetail, openGroupDetail } from './views/analysis.js';
 import { downloadBackup, openBackup } from './views/backup.js';
 import { openCardDetail, openDueList, openNewCard, openPurchase, openTx } from './views/details.js';
 import { openSetup, renderSettings } from './views/settings.js';
-import { openSavingEdit, saveSavingEdit, toggleSavingMonth, selectSavingAll, shiftSavingWindow } from './views/savings.js';
+import { openSavingEdit, saveSavingEdit, toggleSavingMonth, selectSavingAll, changeSavingVisibleCount } from './views/savings.js';
 import { curYm, monthName, shiftYm } from '../utils/dates.js';
 import { inStr, num } from '../utils/format.js';
 
@@ -62,8 +62,8 @@ export const actions={
   savingsave(){saveSavingEdit();},
   savingselect({id}){toggleSavingMonth(id);},
   savingall(){selectSavingAll();},
-  savingprev(){shiftSavingWindow(-6);},
-  savingnext(){shiftSavingWindow(6);},
+  savingmore(){changeSavingVisibleCount(6);},
+  savingless(){changeSavingVisibleCount(0);},
   prev(){view.ym=shiftYm(view.ym,-1);ui.armPay=null;render();},
   next(){view.ym=shiftYm(view.ym,1);ui.armPay=null;render();},
   filter({id}){view.filter=id;render();},

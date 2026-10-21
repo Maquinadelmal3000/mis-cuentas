@@ -47,3 +47,16 @@ export function selectedSavings(state, rows) {
   const selected = planOf(state).selected || [];
   return rows.filter(r => selected.includes(r.ym)).reduce((s, r) => s + r.available, 0);
 }
+
+/** Horizonte de ahorro: mes anterior para comparar, y al menos 12 meses desde el actual.
+ * Si existe una cuota posterior, se extiende hasta el mes de esa última cuota.
+ * No se limita a seis meses ni depende de que la cuota esté marcada como pagada.
+ */
+export function savingsHorizon(state, today = curYm()) {
+  const start = shiftYm(today, -1);
+  let end = shiftYm(today, 11);
+  for (const c of cuotas(state)) if (c.due > end) end = c.due;
+  const [sy, sm] = start.split('-').map(Number);
+  const [ey, em] = end.split('-').map(Number);
+  return { start, end, count: (ey - sy) * 12 + em - sm + 1 };
+}

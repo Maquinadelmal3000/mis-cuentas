@@ -21,6 +21,7 @@ export function createDefaultState() {
     ver: SCHEMA_VERSION,
     setup: { done: false, opening: 0, start: null },
     off: DEFAULT_OFF_DAYS.slice(),
+    savingsPlan: { overrides: {}, selected: [] },
     manualInstallments: false,   // false = cuotas por mes calendario (automático); true = confirmación manual
     sources: DEFAULT_SOURCES.slice(),
     cats: DEFAULT_CATEGORIES.slice(),
@@ -41,6 +42,9 @@ export function migrateState(state) {
   if (!state.groups) state.groups = DEFAULT_GROUPS.slice();
   if (!state.fixed) state.fixed = [];
   if (!state.templates) state.templates = [];
+  if (!state.savingsPlan || typeof state.savingsPlan !== "object") state.savingsPlan = { overrides: {}, selected: [] };
+  if (!state.savingsPlan.overrides || typeof state.savingsPlan.overrides !== "object") state.savingsPlan.overrides = {};
+  if (!Array.isArray(state.savingsPlan.selected)) state.savingsPlan.selected = [];
   if (!state.catGroups) state.catGroups = {};
   if (!state.ver || state.ver < 5) {
     const rn = n => LEGACY_CATEGORY_RENAMES[n] || n;

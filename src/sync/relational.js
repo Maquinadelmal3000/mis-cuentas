@@ -17,7 +17,7 @@ export const KEY_COLS = {
 
 /** Columnas de datos (las que produce migration/toRelational.js). rev / updated_at / created_at son del servidor. */
 export const COLUMNS = {
-  user_settings: ['user_id', 'schema_version', 'setup_done', 'opening_balance', 'setup_start', 'manual_installments', 'off_days', 'app_updated_at'],
+  user_settings: ['user_id', 'schema_version', 'setup_done', 'opening_balance', 'setup_start', 'manual_installments', 'savings_plan', 'off_days', 'app_updated_at'],
   income_sources: ['user_id', 'name', 'position'], expense_groups: ['user_id', 'name', 'position'],
   categories: ['user_id', 'name', 'position', 'group_name'],
   cards: ['user_id', 'id', 'name', 'kind', 'archived'],
@@ -72,6 +72,7 @@ export function tablesToState(t) {
   return {
     ver: s.schema_version || 5, updatedAt: s.app_updated_at ? new Date(s.app_updated_at).getTime() : undefined,
     manualInstallments: !!s.manual_installments,
+    savingsPlan: s.savings_plan || { overrides: {}, selected: [] },
     setup: { done: !!s.setup_done, opening: Number(s.opening_balance) || 0, start: s.setup_start || null }, off: s.off_days || [0],
     sources: by(t.income_sources, x => x.name), groups: by(t.expense_groups, x => x.name),
     cats: by(t.categories, x => x.name), catGroups: Object.fromEntries((t.categories || []).filter(x => x.group_name).map(x => [x.name, x.group_name])),

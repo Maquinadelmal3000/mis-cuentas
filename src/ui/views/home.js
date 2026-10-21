@@ -33,6 +33,8 @@ export function renderHome(){
   if(fixed>0){h+=`<div class="line"><span>Con tu ingreso fijo te quedaría</span><b class="${fixedLeft>=0?'pos':'neg'}">${fmt(fixedLeft)}</b></div>`;}
   h+=`<div class="line strong"><span>Te quedaría libre</span><b class="${libre>=0?'pos':'neg'}">${fmt(libre)}</b></div></div>`;
 
+  h+=`<div class="sh"><h2>Planificar mis ahorros</h2></div><div class="panel pad"><div class="hint" style="margin:0 0 10px">Consultá cuánto te quedaría cada mes y sumá los meses que quieras.</div><button class="btn sm" data-act="gotab" data-id="savings">Ver proyección de ahorro ›</button></div>`;
+
   // Movimientos del día o del mes
   const prefix=view.hm==='day'?T:Y,items=movementItems(prefix,'all','');
   h+=`<div class="sh"><h2>Movimientos</h2><div class="seg sm" role="group" aria-label="Periodo"><button data-act="hm" data-id="day" aria-pressed="${view.hm==='day'}">Hoy</button><button data-act="hm" data-id="month" aria-pressed="${view.hm==='month'}">Este mes</button></div></div>`;

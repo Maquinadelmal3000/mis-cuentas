@@ -45,7 +45,7 @@ test('registrar un ingreso, un gasto y una compra en cuotas', async () => {
 
 test('todas las pestañas y subpestañas se dibujan', () => {
   const pasos = [
-    ['list'], ['cats'], ['cards'], ['home']
+    ['list'], ['cats'], ['cards'], ['savings'], ['home']
   ];
   for (const [t] of pasos) { dom.tab(t); assert.ok(dom.app().length > 200, 'pestaña ' + t); }
   dom.tab('cats');

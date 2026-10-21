@@ -5,12 +5,13 @@ import { renderCards } from './views/cards.js';
 import { openDueList, openPurchase } from './views/details.js';
 import { renderHome } from './views/home.js';
 import { renderList } from './views/list.js';
+import { renderSavings } from './views/savings.js';
 import { openSetup } from './views/settings.js';
 import { syncLabel } from './widgets.js';
 
 export function render(){
   document.querySelectorAll('#nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.tab===view.tab?'page':'false'));
-  ({home:renderHome,list:renderList,cats:renderCats,cards:renderCards})[view.tab]();
+  ({home:renderHome,list:renderList,cats:renderCats,cards:renderCards,savings:renderSavings})[view.tab]();
 }
 
 export function refreshSheet(){

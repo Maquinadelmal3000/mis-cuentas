@@ -10,6 +10,7 @@ import { openCatDetail, openGroupDetail } from './views/analysis.js';
 import { downloadBackup, openBackup } from './views/backup.js';
 import { openCardDetail, openDueList, openNewCard, openPurchase, openTx } from './views/details.js';
 import { openSetup, renderSettings } from './views/settings.js';
+import { openSavingEdit, saveSavingEdit, toggleSavingMonth, selectSavingAll, shiftSavingWindow } from './views/savings.js';
 import { curYm, monthName, shiftYm } from '../utils/dates.js';
 import { inStr, num } from '../utils/format.js';
 
@@ -57,6 +58,12 @@ function saveEdit(d,err){
  * Cada acción valida lo que escribió la persona, llama a un servicio y vuelve a dibujar.
  */
 export const actions={
+  savingedit({id}){openSavingEdit(id);},
+  savingsave(){saveSavingEdit();},
+  savingselect({id}){toggleSavingMonth(id);},
+  savingall(){selectSavingAll();},
+  savingprev(){shiftSavingWindow(-6);},
+  savingnext(){shiftSavingWindow(6);},
   prev(){view.ym=shiftYm(view.ym,-1);ui.armPay=null;render();},
   next(){view.ym=shiftYm(view.ym,1);ui.armPay=null;render();},
   filter({id}){view.filter=id;render();},
